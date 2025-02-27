@@ -158,7 +158,6 @@
   <ItemGroup>
     <ClInclude Include="Headers\Ellipsoid.h" />
     <ClInclude Include="Headers\EllipsoidSolver.h" />
-    <ClInclude Include="Headers\Utils\Shader.h" />
     <ClInclude Include="Libs\imgui\imconfig.h" />
     <ClInclude Include="Libs\imgui\imgui.h" />
     <ClInclude Include="Libs\imgui\imgui_impl_glfw.h" />

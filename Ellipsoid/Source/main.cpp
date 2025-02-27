@@ -33,11 +33,14 @@ void RenderPoints(const EllipsoidSolver& solver)
 
 int main(void)
 {
-    GLFWwindow* window;
-
     /* Initialize the library */
     if (!glfwInit())
         return -1;
+
+    GLFWwindow* window;
+    //glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    //glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+    //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(1000, 750, "Ellipsoid Points", NULL, NULL);
@@ -67,8 +70,8 @@ int main(void)
         std::cout << "Error!" << std::endl;
     }
 
-    EllipsoidSolver solver(Ellipsoid(1.0f, 1.0f, 1.0f), 1000, 750);
-    solver.Solve();
+    EllipsoidSolver solver(Ellipsoid(1.f, 1.f, 1.f), 1000, 750);
+    solver.Solve(); 
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
