@@ -1,4 +1,4 @@
-#include "imgui/imgui.h"
+﻿#include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
 
@@ -9,6 +9,27 @@
 #include "Matrix4.h"
 
 #include <iostream>
+#include <EllipsoidSolver.h>
+
+void RenderPoints(const EllipsoidSolver& solver)
+{
+    const auto& points = solver.getPoints();
+
+    glColor3f(1.0f, 1.0f, 1.0f);
+
+    glBegin(GL_POINTS);
+    for (int i = 0; i < 750; ++i)
+    {
+        for (int j = 0; j < 1000; ++j)
+        {
+            float x = points[i][j].x;
+            float y = points[i][j].y;
+            if(points[i][j].z > 0)
+                glVertex2f(x, y);
+        }
+    }
+    glEnd();
+}
 
 int main(void)
 {
@@ -19,7 +40,7 @@ int main(void)
         return -1;
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    window = glfwCreateWindow(1000, 750, "Ellipsoid Points", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -46,10 +67,8 @@ int main(void)
         std::cout << "Error!" << std::endl;
     }
 
-    // Algebra tests
-
-
-
+    EllipsoidSolver solver(Ellipsoid(1.0f, 1.0f, 1.0f), 1000, 750);
+    solver.Solve();
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -62,11 +81,7 @@ int main(void)
         ImGui::NewFrame();
         ImGui::ShowDemoWindow();
 
-        glBegin(GL_TRIANGLES);
-        glVertex2f(-0.5f, -0.5f);
-        glVertex2f(0.0f, 0.5f);
-        glVertex2f(0.5f, -0.5f);
-        glEnd();
+        RenderPoints(solver);
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -75,8 +90,8 @@ int main(void)
 
         /* Poll for and process events */
         glfwPollEvents();
-        // Rendering
     }
+
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();

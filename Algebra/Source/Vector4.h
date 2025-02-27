@@ -22,6 +22,7 @@ namespace Algebra
 
 		float Dot(const Vector4& other) const;
 		float Length() const;
+		float Sum() const;
 		Vector4 Normalize() const;
 	};
 }

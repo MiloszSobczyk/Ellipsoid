@@ -69,6 +69,11 @@ namespace Algebra
 		return std::sqrt(x * x + y * y + z * z + w * w);
 	}
 
+	float Vector4::Sum() const
+	{
+		return x + y + z + w;
+	}
+
 	Vector4 Vector4::Normalize() const
 	{
 		float length = Length();
