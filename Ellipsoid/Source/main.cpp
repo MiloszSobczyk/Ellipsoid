@@ -5,6 +5,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include "Vector4.h"
+#include "Matrix4.h"
 
 #include <iostream>
 
@@ -43,6 +45,11 @@ int main(void)
     {
         std::cout << "Error!" << std::endl;
     }
+
+    // Algebra tests
+
+
+
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))

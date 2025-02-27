@@ -1,4 +1,5 @@
 #include "Vector4.h"
+#include <stdexcept>
 
 namespace Algebra
 {
@@ -14,7 +15,19 @@ namespace Algebra
 		case 1: return y;
 		case 2: return z;
 		case 3: return w;
-		default: return 0;
+		default: throw std::out_of_range("Vector index out of range");
+		}
+	}
+
+	float& Vector4::operator[](int index)
+	{
+		switch (index)
+		{
+		case 0: return x;
+		case 1: return y;
+		case 2: return z;
+		case 3: return w;
+		default: throw std::out_of_range("Vector index out of range");
 		}
 	}
 

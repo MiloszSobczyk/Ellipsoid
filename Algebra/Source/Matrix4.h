@@ -1,23 +1,30 @@
 #pragma once
-#include <vector>
+#include "Vector4.h"
 
 namespace Algebra
 {
 	class Matrix4
 	{
-	private:
-		float m_Matrix[4][4] = { 0 };
 	public:
-		Matrix4() {}
-		Matrix4(std::vector<std::vector<float>> values)
-		{
-			for (int i = 0; i < 4; i++)
-			{
-				for (int j = 0; j < 4; j++)
-				{
-					m_Matrix[i][j] = values[i][j];
-				}
-			}
-		}
+		Vector4 rows[4];
+
+		Matrix4();
+		Matrix4(const Vector4& row0, const Vector4& row1, const Vector4& row2, const Vector4& row3);
+
+		Vector4& operator[](int index);
+		const Vector4& operator[](int index) const;
+
+		float& operator()(int row, int col);
+		const float& operator()(int row, int col) const;
+
+		Matrix4 operator+(const Matrix4& other) const;
+		Matrix4 operator-(const Matrix4& other) const;
+		Matrix4 operator*(float scalar) const;
+		Matrix4 operator*(const Matrix4& other) const;
+		Vector4 operator*(const Vector4& vec) const;
+
+		Matrix4 Transpose() const;
 	};
+
+	Vector4 operator*(const Vector4& vec, const Matrix4& mat);
 }

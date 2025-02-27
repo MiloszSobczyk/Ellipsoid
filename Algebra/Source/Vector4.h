@@ -12,6 +12,7 @@ namespace Algebra
 		Vector4(float x, float y, float z, float w);
 
 		float operator[](int index) const;
+		float& operator[](int index);
 
 		Vector4 operator+(const Vector4& other) const;
 		Vector4 operator-(const Vector4& other) const;
