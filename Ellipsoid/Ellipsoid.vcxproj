@@ -157,6 +157,7 @@
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Utils\Init.cpp" />
     <ClCompile Include="Source\Utils\Logger.cpp" />
+    <ClCompile Include="Source\Utils\Shader.cpp" />
     <ClCompile Include="Source\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +166,7 @@
     <ClInclude Include="Source\EllipsoidSolver.h" />
     <ClInclude Include="Source\Utils\Init.h" />
     <ClInclude Include="Source\Utils\Logger.h" />
+    <ClInclude Include="Source\Utils\Shader.h" />
     <ClInclude Include="Source\Window.h" />
     <ClInclude Include="Libs\imgui\imconfig.h" />
     <ClInclude Include="Libs\imgui\imgui.h" />
