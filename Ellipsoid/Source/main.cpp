@@ -41,6 +41,8 @@ int main(void)
     /* Loop until the user closes the window */
     while (!window.ShouldClose())
     {
+        glClear(GL_COLOR_BUFFER_BIT);
+
         window.Update();
 
         ImGui_ImplOpenGL3_NewFrame();

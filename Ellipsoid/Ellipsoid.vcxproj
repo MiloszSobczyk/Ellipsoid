@@ -162,6 +162,7 @@
     <ClInclude Include="Source\App.h" />
     <ClInclude Include="Source\Ellipsoid.h" />
     <ClInclude Include="Source\EllipsoidSolver.h" />
+    <ClInclude Include="Source\Utils\Logger.h" />
     <ClInclude Include="Source\Window.h" />
     <ClInclude Include="Libs\imgui\imconfig.h" />
     <ClInclude Include="Libs\imgui\imgui.h" />
