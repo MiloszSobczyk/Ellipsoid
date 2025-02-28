@@ -5,26 +5,27 @@ namespace Algebra
 {
 	class Matrix4
 	{
-	public:
+	private:
 		Vector4 rows[4];
-
+	public:
 		Matrix4();
-		Matrix4(const Vector4& row0, const Vector4& row1, const Vector4& row2, const Vector4& row3);
+		Matrix4(const Vector4& diagonal);
+		Matrix4(const Vector4& row1, const Vector4& row2, const Vector4& row3, const Vector4& row4);
+
+		float Sum() const;
+		Matrix4 Transpose();
+
+		Vector4 Column(int index) const;
 
 		Vector4& operator[](int index);
 		const Vector4& operator[](int index) const;
+		const Matrix4 operator+(const Matrix4& other) const;
+		const Matrix4 operator-(const Matrix4& other) const;
 
-		float& operator()(int row, int col);
-		const float& operator()(int row, int col) const;
+		const Matrix4 operator*(const Matrix4& rightMatrix) const;
 
-		Matrix4 operator+(const Matrix4& other) const;
-		Matrix4 operator-(const Matrix4& other) const;
-		Matrix4 operator*(float scalar) const;
-		Matrix4 operator*(const Matrix4& other) const;
-		Vector4 operator*(const Vector4& vec) const;
-
-		Matrix4 Transpose() const;
+		friend Matrix4 operator*(const Matrix4& matrix, const float& scalar);
+		friend Matrix4 operator*(const float& scalar, const Matrix4& matrix);
+		friend Matrix4 operator/(const Matrix4& matrix, const float& scalar);
 	};
-
-	Vector4 operator*(const Vector4& vec, const Matrix4& mat);
 }

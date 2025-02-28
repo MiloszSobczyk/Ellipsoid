@@ -22,7 +22,7 @@ namespace Algebra
 		return *this / Length();
 	}
 
-	float Vector4::operator[](int index) const
+	float& Vector4::operator[](int index)
 	{
 		switch (index)
 		{
@@ -30,7 +30,19 @@ namespace Algebra
 		case 1: return y;
 		case 2: return z;
 		case 3: return w;
-		default: throw std::out_of_range("Vector index out of range");
+		default: throw std::runtime_error("invalid vector4 index");
+		}
+	}
+
+	const float& Algebra::Vector4::operator[](int index) const
+	{
+		switch (index)
+		{
+		case 0: return x;
+		case 1: return y;
+		case 2: return z;
+		case 3: return w;
+		default: throw std::runtime_error("invalid vector4 index");
 		}
 	}
 
@@ -44,10 +56,10 @@ namespace Algebra
 		return Vector4(x - other.x, y - other.y, z - other.z, w - other.w);
 	}
 
-	Vector4 Vector4::operator*(const Matrix4& matrix) const
-	{
-		return Vector4();
-	}
+	//Vector4 Vector4::operator*(const Matrix4& matrix) const
+	//{
+	//	return Vector4();
+	//}
 
 	float Vector4::operator*(const Vector4& rightVector) const
 	{
