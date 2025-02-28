@@ -97,4 +97,87 @@ namespace Algebra
 
 		return matrix * (1.f / scalar);
 	}
+
+	Matrix4 Matrix4::Identity()
+	{
+		return Matrix4(Vector4(1, 1, 1, 1));
+	}
+
+	Matrix4 Matrix4::Translation(float x, float y, float z)
+	{
+		Matrix4 temp = Matrix4::Identity();
+		temp[0][3] = x;
+		temp[1][3] = y;
+		temp[2][3] = z;
+		return temp;
+	}
+
+	Matrix4 Matrix4::RotationX(float angle)
+	{
+		Matrix4 temp = Matrix4::Identity();
+		float angleCos = cosf(angle);
+		float angleSin = sinf(angle);
+		temp[1][1] = angleCos;
+		temp[1][2] = -angleSin;
+		temp[2][1] = angleSin;
+		temp[2][2] = angleCos;
+
+		return temp;
+	}
+
+	Matrix4 Matrix4::RotationY(float angle)
+	{
+		Matrix4 temp = Matrix4::Identity();
+		float angleCos = cosf(angle);
+		float angleSin = sinf(angle);
+		temp[0][0] = angleCos;
+		temp[0][2] = angleSin;
+		temp[2][0] = -angleSin;
+		temp[2][2] = angleCos;
+
+		return temp;
+	}
+
+	Matrix4 Matrix4::RotationZ(float angle)
+	{
+		Matrix4 temp = Matrix4::Identity();
+		float angleCos = cosf(angle);
+		float angleSin = sinf(angle);
+		temp[0][0] = angleCos;
+		temp[0][1] = -angleSin;
+		temp[1][0] = angleSin;
+		temp[1][1] = angleCos;
+
+		return temp;
+	}
+
+	Matrix4 Matrix4::Rotation(float x, float y, float z)
+	{
+		return RotationX(x) * RotationY(y) * RotationZ(z);
+	}
+
+	Matrix4 Matrix4::RotationXDegree(float angle)
+	{
+		return RotationX(Algebra::DegreeToRadians(angle));
+	}
+
+	Matrix4 Matrix4::RotationYDegree(float angle)
+	{
+		return RotationY(Algebra::DegreeToRadians(angle));
+	}
+
+	Matrix4 Matrix4::RotationZDegree(float angle)
+	{
+		return RotationZ(Algebra::DegreeToRadians(angle));
+	}
+
+	Matrix4 Matrix4::RotationDegree(float x, float y, float z)
+	{
+		return RotationXDegree(x) * RotationYDegree(y) * RotationZDegree(z);
+	}
+
+	Matrix4 Matrix4::DiagonalScaling(float x, float y, float z, float w)
+	{
+		return Matrix4();
+	}
 }

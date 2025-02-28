@@ -1,4 +1,5 @@
 #pragma once
+#include <numbers>
 #include "Vector4.h"
 
 namespace Algebra
@@ -27,5 +28,23 @@ namespace Algebra
 		friend Matrix4 operator*(const Matrix4& matrix, const float& scalar);
 		friend Matrix4 operator*(const float& scalar, const Matrix4& matrix);
 		friend Matrix4 operator/(const Matrix4& matrix, const float& scalar);
+
+		static Matrix4 Identity();
+		static Matrix4 Translation(float x, float y, float z);
+		static Matrix4 RotationX(float angle);
+		static Matrix4 RotationY(float angle);
+		static Matrix4 RotationZ(float angle);
+		static Matrix4 Rotation(float x, float y, float z);
+		static Matrix4 RotationXDegree(float angle);
+		static Matrix4 RotationYDegree(float angle);
+		static Matrix4 RotationZDegree(float angle);
+		static Matrix4 RotationDegree(float x, float y, float z);
+		static Matrix4 DiagonalScaling(float x, float y, float z, float w = 1);
 	};
+
+	float DegreeToRadians(float degree)
+	{
+		return static_cast<float>(std::numbers::pi_v<float> * degree / 180.f);
+	}
+
 }
