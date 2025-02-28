@@ -1,5 +1,5 @@
 #pragma once
-#include <numbers>
+
 #include "Vector4.h"
 
 namespace Algebra
@@ -10,41 +10,36 @@ namespace Algebra
 		Vector4 rows[4];
 	public:
 		Matrix4();
+		Matrix4(const Vector4& row0, const Vector4& row1, const Vector4& row2, const Vector4& row3);
 		Matrix4(const Vector4& diagonal);
-		Matrix4(const Vector4& row1, const Vector4& row2, const Vector4& row3, const Vector4& row4);
 
 		float Sum() const;
-		Matrix4 Transpose();
-
 		Vector4 Column(int index) const;
+		Matrix4 Transpose();
 
 		Vector4& operator[](int index);
 		const Vector4& operator[](int index) const;
 		const Matrix4 operator+(const Matrix4& other) const;
 		const Matrix4 operator-(const Matrix4& other) const;
 
-		const Matrix4 operator*(const Matrix4& rightMatrix) const;
+		const Matrix4 operator*(const Matrix4& other) const;
 
 		friend Matrix4 operator*(const Matrix4& matrix, const float& scalar);
 		friend Matrix4 operator*(const float& scalar, const Matrix4& matrix);
 		friend Matrix4 operator/(const Matrix4& matrix, const float& scalar);
 
 		static Matrix4 Identity();
+
 		static Matrix4 Translation(float x, float y, float z);
-		static Matrix4 RotationX(float angle);
-		static Matrix4 RotationY(float angle);
-		static Matrix4 RotationZ(float angle);
-		static Matrix4 Rotation(float x, float y, float z);
-		static Matrix4 RotationXDegree(float angle);
-		static Matrix4 RotationYDegree(float angle);
-		static Matrix4 RotationZDegree(float angle);
-		static Matrix4 RotationDegree(float x, float y, float z);
-		static Matrix4 DiagonalScaling(float x, float y, float z, float w = 1);
+
+		static Matrix4 RotationX(float radians);
+		static Matrix4 RotationY(float radians);
+		static Matrix4 RotationZ(float radians);
+		static Matrix4 Rotation(float xRadians, float yRadians, float zRadians);
+
+		static Matrix4 RotationXByDegree(float degree);
+		static Matrix4 RotationYByDegree(float degree);
+		static Matrix4 RotationZByDegree(float degree);
+		static Matrix4 RotationByDegree(float xDegree, float yDegree, float zDegree);
 	};
-
-	float DegreeToRadians(float degree)
-	{
-		return static_cast<float>(std::numbers::pi_v<float> * degree / 180.f);
-	}
-
 }

@@ -1,93 +1,107 @@
 #include "Vector4.h"
 #include <stdexcept>
+#include "Matrix4.h"
 
-namespace Algebra
+using namespace Algebra;
+
+Vector4::Vector4()
+	: x(0), y(0), z(0), w(0)
+{}
+
+Vector4::Vector4(float x, float y, float z, float w)
+	: x(x), y(y), z(z), w(w)
+{}
+
+float Vector4::Sum() const
 {
-	Vector4::Vector4() : x(0), y(0), z(0), w(0) {}
+	return x + y + z + w;
+}
 
-	Vector4::Vector4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
+float Vector4::Length() const
+{
+	return sqrtf(x * x + y * y + z * z + w * w);
+}
 
-	float Vector4::Sum() const
+Vector4 Vector4::Normalize() const
+{
+	return *this / Length();
+}
+
+float& Vector4::operator[](int index)
+{
+	switch (index)
 	{
-		return x + y + z + w;
+	case 0: return x;
+	case 1: return y;
+	case 2: return z;
+	case 3: return w;
+	default: throw std::runtime_error("Index out of bounds");
+	}
+}
+
+const float& Vector4::operator[](int index) const
+{
+	switch (index)
+	{
+	case 0: return x;
+	case 1: return y;
+	case 2: return z;
+	case 3: return w;
+	default: throw std::runtime_error("Index out of bounds");
+	}
+}
+
+const Vector4 Vector4::operator+(const Vector4& other) const
+{
+	return Vector4(
+		this->x + other.x, 
+		this->y + other.y,
+		this->z + other.z, 
+		this->w + other.w
+	);
+}
+
+const Vector4 Vector4::operator-(const Vector4& other) const
+{
+	return Vector4(
+		this->x - other.x,
+		this->y - other.y,
+		this->z - other.z,
+		this->w - other.w
+	);
+}
+
+const float Vector4::operator*(const Vector4& other) const
+{
+	return x * other.x + y * other.y + z * other.z + w * other.w;
+}
+
+const Vector4 Vector4::operator*(const Matrix4& matrix) const
+{
+	return Vector4(
+		(*this) * matrix.Column(0), 
+		(*this) * matrix.Column(1),
+		(*this) * matrix.Column(2), 
+		(*this) * matrix.Column(3)
+	);
+}
+
+Vector4 Algebra::operator*(const Vector4& vector, const float& scalar)
+{
+	return Vector4(vector.x * scalar, vector.y * scalar, vector.z * scalar, vector.w * scalar);
+}
+
+Vector4 Algebra::operator/(const Vector4& vector, const float& scalar)
+{
+	if (scalar == 0)
+	{
+		throw std::runtime_error("Scalar cannot be zero");
 	}
 
-	float Vector4::Length() const
-	{
-		return sqrt(x * x + y * y + z * z + w * w);
-	}
+	return vector * (1.f /  scalar);
+}
 
-	Vector4 Vector4::Normalize() const
-	{
-		return *this / Length();
-	}
-
-	float& Vector4::operator[](int index)
-	{
-		switch (index)
-		{
-		case 0: return x;
-		case 1: return y;
-		case 2: return z;
-		case 3: return w;
-		default: throw std::runtime_error("invalid vector4 index");
-		}
-	}
-
-	const float& Algebra::Vector4::operator[](int index) const
-	{
-		switch (index)
-		{
-		case 0: return x;
-		case 1: return y;
-		case 2: return z;
-		case 3: return w;
-		default: throw std::runtime_error("invalid vector4 index");
-		}
-	}
-
-	Vector4 Vector4::operator+(const Vector4& other) const
-	{
-		return Vector4(x + other.x, y + other.y, z + other.z, w + other.w);
-	}
-
-	Vector4 Vector4::operator-(const Vector4& other) const
-	{
-		return Vector4(x - other.x, y - other.y, z - other.z, w - other.w);
-	}
-
-	Vector4 Vector4::operator*(const Matrix4& matrix) const
-	{
-		return Vector4(
-			(*this) * matrix.Column(0), 
-			(*this) * matrix.Column(1), 
-			(*this) * matrix.Column(2), 
-			(*this) * matrix.Column(3)
-		);
-	}
-
-	float Vector4::operator*(const Vector4& rightVector) const
-	{
-		return x * rightVector.x + y * rightVector.y + z * rightVector.z + w * rightVector.w;
-	}
-
-	Vector4 operator*(const Vector4& vector, const float& scalar)
-	{
-		return Vector4(vector.x * scalar, vector.y * scalar, vector.z * scalar, vector.w * scalar);
-	}
-
-	Vector4 operator*(const float& scalar, const Vector4& vector)
-	{
-		return vector * scalar;
-	}
-
-	Vector4 operator/(const Vector4& vector, const float& scalar)
-	{
-		if (scalar == 0)
-		{
-			throw std::runtime_error("Scalar cannot be zero");
-		}
-
-		return vector * (1.f / scalar);
-	}
+Vector4 Algebra::operator*(const float& scalar, const Vector4& vector)
+{
+	return vector * scalar;
 }
