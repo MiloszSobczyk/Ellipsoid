@@ -1,5 +1,6 @@
 #pragma once
 #include <cmath>
+#include "Matrix4.h"
 
 namespace Algebra
 {
@@ -11,18 +12,19 @@ namespace Algebra
 		Vector4();
 		Vector4(float x, float y, float z, float w);
 
+		float Sum() const;
+		float Length() const;
+		Vector4 Normalize() const;
+		
 		float operator[](int index) const;
-		float& operator[](int index);
-
 		Vector4 operator+(const Vector4& other) const;
 		Vector4 operator-(const Vector4& other) const;
-		Vector4 operator*(float scalar) const;
-		Vector4 operator/(float scalar) const;
-		Vector4 operator-() const;
 
-		float Dot(const Vector4& other) const;
-		float Length() const;
-		float Sum() const;
-		Vector4 Normalize() const;
+		Vector4 operator*(const Matrix4& matrix) const;
+		float operator*(const Vector4& rightVector) const;
+
+		friend Vector4 operator*(const Vector4& vector, const float& scalar);
+		friend Vector4 operator*(const float& scalar, const Vector4& vector);
+		friend Vector4 operator/(const Vector4& vector, const float& scalar);
 	};
 }
