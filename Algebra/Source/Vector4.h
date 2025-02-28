@@ -1,5 +1,6 @@
 #pragma once
 #include <cmath>
+#include "Matrix4.h"
 
 namespace Algebra
 {
@@ -20,7 +21,7 @@ namespace Algebra
 		Vector4 operator+(const Vector4& other) const;
 		Vector4 operator-(const Vector4& other) const;
 
-		//Vector4 operator*(const Matrix4& matrix) const;
+		Vector4 operator*(const Matrix4& matrix) const;
 		float operator*(const Vector4& rightVector) const;
 
 		friend Vector4 operator*(const Vector4& vector, const float& scalar);

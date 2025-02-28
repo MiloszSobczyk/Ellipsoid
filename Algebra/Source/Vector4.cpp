@@ -56,10 +56,15 @@ namespace Algebra
 		return Vector4(x - other.x, y - other.y, z - other.z, w - other.w);
 	}
 
-	//Vector4 Vector4::operator*(const Matrix4& matrix) const
-	//{
-	//	return Vector4();
-	//}
+	Vector4 Vector4::operator*(const Matrix4& matrix) const
+	{
+		return Vector4(
+			(*this) * matrix.Column(0), 
+			(*this) * matrix.Column(1), 
+			(*this) * matrix.Column(2), 
+			(*this) * matrix.Column(3)
+		);
+	}
 
 	float Vector4::operator*(const Vector4& rightVector) const
 	{
@@ -80,7 +85,7 @@ namespace Algebra
 	{
 		if (scalar == 0)
 		{
-			throw std::runtime_error("Scale cannot be zero");
+			throw std::runtime_error("Scalar cannot be zero");
 		}
 
 		return vector * (1.f / scalar);

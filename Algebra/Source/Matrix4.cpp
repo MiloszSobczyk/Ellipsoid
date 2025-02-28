@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Matrix4.h"
+#include <stdexcept>
 
 namespace Algebra
 {
@@ -89,6 +90,11 @@ namespace Algebra
 
 	Matrix4 operator/(const Matrix4& matrix, const float& scalar)
 	{
+		if (scalar == 0)
+		{
+			throw std::runtime_error("Scalar cannot be zero");
+		}
+
 		return matrix * (1.f / scalar);
 	}
 }
