@@ -2,6 +2,7 @@
 
 #include <stdexcept>
 #include <Utils/Logger.h>
+#include <Utils/Init.h>
 
 Window::Window(int width, int height, std::string title) 
 	: width(width), height(height), title(title)
@@ -25,6 +26,11 @@ Window::Window(int width, int height, std::string title)
 		Window* newWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
 		newWindow->ResizeCallback(window, width, height);
 	});
+
+	if (!InitGLEW())
+	{
+		throw std::runtime_error("Cannot initialize GLEW");
+	}
 }
 
 void Window::Update()

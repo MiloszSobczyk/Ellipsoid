@@ -152,6 +152,7 @@
     <ClCompile Include="Libs\imgui\imgui_tables.cpp" />
     <ClCompile Include="Libs\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Libs\stb_image\stb_image.cpp" />
+    <ClCompile Include="Source\Ellipsoid.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Utils\Init.cpp" />
     <ClCompile Include="Source\Utils\Logger.cpp" />
@@ -160,6 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\App.h" />
+    <ClInclude Include="Source\Ellipsoid.h" />
     <ClInclude Include="Source\Utils\Init.h" />
     <ClInclude Include="Source\Utils\Logger.h" />
     <ClInclude Include="Source\Utils\Shader.h" />

@@ -2,9 +2,8 @@
 #include <stdexcept>
 
 App::App(int windowWidth, int windowHeight, std::string title)
-	: window(windowWidth, windowHeight, title), active(true)
+	: window(windowWidth, windowHeight, title), active(true), shape(1.f, 1.f, 1.f)
 {
-    active &= InitGLEW();
     active &= InitImgui(window.GetNativeWindow());
     if (!active)
     {
@@ -33,5 +32,6 @@ void App::Run()
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         window.Update();
+        shape.CalculatePoints(-1.f, 1.f, -1.f, 1.f, window.GetWidth(), window.GetHeight());
     }
 }
