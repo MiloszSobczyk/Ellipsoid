@@ -1,21 +1,59 @@
-#include "Ellipsoid.h"
 #pragma once
 
+#include "Ellipsoid.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <iostream>
+
+
 Ellipsoid::Ellipsoid() 
-	: a(1.f), b(1.f), c(1.f), visiblePoints()
+	: a(1.f), b(1.f), c(1.f), visiblePoints(), shader("Resources/Shaders/Shader.glsl"),
+		vertices { 0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f, -0.5f, 0.5f, 0.0f }
 {
 	translations = Vector4(0.f, 0.f, 0.f, 0.f);
 	scaling = Vector4(1.f, 1.f, 1.f, 1.f);
 	rotations = Vector4(0.f, 0.f, 0.f, 0.f);
+
+	InitBuffers();
 }
 
 Ellipsoid::Ellipsoid(float a, float b, float c)
-	: a(a), b(b), c(c), visiblePoints()
+	: a(a), b(b), c(c), visiblePoints(), shader("Resources/Shaders/Shader.glsl"),
+		vertices{ 0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f, -0.5f, 0.5f, 0.0f }
 {
 	translations = Vector4(0.f, 0.f, 0.f, 0.f);
 	scaling = Vector4(1.f, 1.f, 1.f, 1.f);
 	rotations = Vector4(0.f, 0.f, 0.f, 0.f);
+
+	InitBuffers();
 }
+
+void Ellipsoid::InitBuffers()
+{
+	float vertices2[] = { 0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f, -0.5f, 0.5f, 0.0f };
+
+	glGenBuffers(1, &VBO);
+	glGenVertexArrays(1, &VAO);
+
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices2), vertices2, GL_STATIC_DRAW);
+	
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+}
+
+void Ellipsoid::Render()
+{
+	shader.Bind();
+
+	glBindVertexArray(VAO);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glBindVertexArray(0);
+
+	shader.Unbind();
+}
+
 
 Matrix4 Ellipsoid::CalculateInverseTransformations()
 {
@@ -29,7 +67,6 @@ Matrix4 Ellipsoid::CalculateInverseTransformations()
 	Matrix4 inverseTransform = inverseScaling * inverseRotation * inverseTranslation;
 	return inverseTransform;
 }
-
 
 void Ellipsoid::CalculatePoints(float xLeft, float xRight, float yUp, float yDown, 
 	int xPoints, int yPoints)
@@ -65,7 +102,6 @@ void Ellipsoid::CalculatePoints(float xLeft, float xRight, float yUp, float yDow
 			visiblePoints.push_back(Point(x, y, std::max(z1, z2)));
 		}
 	}
-
-
 }
+
 

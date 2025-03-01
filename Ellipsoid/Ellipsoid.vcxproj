@@ -179,6 +179,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\.gitkeep" />
+    <None Include="Resources\Shaders\FragmentShader.glsl" />
+    <None Include="Resources\Shaders\Shader.glsl" />
+    <None Include="Resources\Shaders\VertexShader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="Libs\imgui\imgui.natvis" />

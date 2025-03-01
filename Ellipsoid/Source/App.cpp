@@ -21,17 +21,19 @@ App::~App()
 
 void App::Run()
 {
+    shape.CalculatePoints(-1.f, 1.f, -1.f, 1.f, window.GetWidth(), window.GetHeight());
     while (active && !window.ShouldClose())
     {
         glClear(GL_COLOR_BUFFER_BIT);
 
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        //ImGui_ImplOpenGL3_NewFrame();
+        //ImGui_ImplGlfw_NewFrame();
+        //ImGui::NewFrame();
+        //ImGui::Render();
+        //ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        shape.Render();
 
         window.Update();
-        shape.CalculatePoints(-1.f, 1.f, -1.f, 1.f, window.GetWidth(), window.GetHeight());
     }
 }
