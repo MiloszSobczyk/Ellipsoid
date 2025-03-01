@@ -5,6 +5,7 @@
 #include "Ellipsoid.h"
 
 #include <string>
+#include <RayCaster.h>
 
 class App
 {
@@ -12,6 +13,7 @@ private:
 	Window window;
 	bool active;
 	Ellipsoid shape;
+	RayCaster wizard;
 
 public:
 	App(int windowWidth = 640, int windowHeight = 480, std::string title = "Pierce the Heavens");

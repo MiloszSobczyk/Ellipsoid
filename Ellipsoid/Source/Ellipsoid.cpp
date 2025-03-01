@@ -7,53 +7,27 @@
 
 
 Ellipsoid::Ellipsoid() 
-	: a(1.f), b(1.f), c(1.f), visiblePoints(), shader("Resources/Shaders/Shader.glsl"),
-		vertices { 0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f, -0.5f, 0.5f, 0.0f }
+	: a(1.f), b(1.f), c(1.f)
 {
 	translations = Vector4(0.f, 0.f, 0.f, 0.f);
 	scaling = Vector4(1.f, 1.f, 1.f, 1.f);
 	rotations = Vector4(0.f, 0.f, 0.f, 0.f);
-
-	InitBuffers();
 }
 
 Ellipsoid::Ellipsoid(float a, float b, float c)
-	: a(a), b(b), c(c), visiblePoints(), shader("Resources/Shaders/Shader.glsl"),
-		vertices{ 0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f, -0.5f, 0.5f, 0.0f }
+	: a(a), b(b), c(c)
 {
 	translations = Vector4(0.f, 0.f, 0.f, 0.f);
 	scaling = Vector4(1.f, 1.f, 1.f, 1.f);
 	rotations = Vector4(0.f, 0.f, 0.f, 0.f);
-
-	InitBuffers();
 }
 
-void Ellipsoid::InitBuffers()
+void Ellipsoid::Refresh()
 {
-	float vertices2[] = { 0.5f, 0.5f, 0.0f, 0.5f, -0.5f, 0.0f, -0.5f, 0.5f, 0.0f };
-
-	glGenBuffers(1, &VBO);
-	glGenVertexArrays(1, &VAO);
-
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices2), vertices2, GL_STATIC_DRAW);
-	
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
+	Matrix4 diag(Vector4(a, b, c, -1.f));
+	Matrix4 inv = CalculateInverseTransformations();
+	finalMatrix = inv.Transpose() * diag * inv;
 }
-
-void Ellipsoid::Render()
-{
-	shader.Bind();
-
-	glBindVertexArray(VAO);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-	glBindVertexArray(0);
-
-	shader.Unbind();
-}
-
 
 Matrix4 Ellipsoid::CalculateInverseTransformations()
 {
@@ -68,40 +42,26 @@ Matrix4 Ellipsoid::CalculateInverseTransformations()
 	return inverseTransform;
 }
 
-void Ellipsoid::CalculatePoints(float xLeft, float xRight, float yUp, float yDown, 
-	int xPoints, int yPoints)
+std::pair<bool, float> Ellipsoid::CalculatePoint(float x, float y)
 {
-	Matrix4 diag(Vector4(a, b, c, -1.f));
-	Matrix4 inv = CalculateInverseTransformations();
-	Matrix4 finalMat = inv.Transpose() * diag * inv;
-	
-	for (int i = 0; i < xPoints; ++i)
+	float aZ = finalMatrix[2][2];
+	// possible easier calculation of bZ
+	float bZ = ((finalMatrix[0][2] + finalMatrix[2][0]) * x + (finalMatrix[1][2] + finalMatrix[2][1]) * y +
+		finalMatrix[2][3] + finalMatrix[3][2]);
+	float cZ = Vector4(x, y, 0.f, 1.f) * finalMatrix * Vector4(x, y, 0.f, 1.f);
+
+	float delta = bZ * bZ - 4 * aZ * cZ;
+
+	if (delta < 0)
 	{
-		for (int j = 0; j < yPoints; ++j)
-		{
-			float x = xLeft + (xRight - xLeft) / xPoints * i;
-			float y = yDown + (yUp - yDown) / yPoints * j;
-
-			float aZ = finalMat[2][2];
-			// possible easier calculation of bZ
-			float bZ = ((finalMat[0][2] + finalMat[2][0]) * x + (finalMat[1][2] + finalMat[2][1]) * y +
-				finalMat[2][3] + finalMat[3][2]);
-			float cZ = Vector4(x, y, 0.f, 1.f) * finalMat * Vector4(x, y, 0.f, 1.f);
-
-			float delta = bZ * bZ - 4 * aZ * cZ;
-
-			if (delta < 0)
-			{
-				continue;
-			}
-
-			float deltaSquared = sqrtf(delta);
-			float z1 = (-bZ + deltaSquared) / (2.f * aZ);
-			float z2 = (-bZ - deltaSquared) / (2.f * aZ);
-
-			visiblePoints.push_back(Point(x, y, std::max(z1, z2)));
-		}
+		return std::make_pair(false, 0.f);
 	}
+
+	float deltaSquared = sqrtf(delta);
+	float z1 = (-bZ + deltaSquared) / (2.f * aZ);
+	float z2 = (-bZ - deltaSquared) / (2.f * aZ);
+
+	return std::make_pair(true, std::max(z1, z2));
 }
 
 

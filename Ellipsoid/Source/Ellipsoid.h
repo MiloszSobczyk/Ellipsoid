@@ -11,27 +11,17 @@ class Ellipsoid
 {
 private:
 	float a, b, c;
-	std::vector<Point> visiblePoints;
 	Vector4 rotations;
 	Vector4 scaling;
 	Vector4 translations;
-
-	unsigned int VAO;
-	unsigned int VBO;
-	Shader shader;
-
-	float vertices[9];
-
+	Matrix4 finalMatrix;
 public:
 	Ellipsoid();
 	Ellipsoid(float a, float b, float c);
 
-	void InitBuffers();
-
 	Matrix4 CalculateInverseTransformations();
 
-	void CalculatePoints(float xLeft, float xRight, float yUp, float yDown,
-		int xPoints, int yPoints);
+	std::pair<bool, float> CalculatePoint(float x, float y);
 
-	void Render();
+	void Refresh();
 };

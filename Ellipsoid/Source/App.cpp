@@ -21,10 +21,10 @@ App::~App()
 
 void App::Run()
 {
-    shape.CalculatePoints(-1.f, 1.f, -1.f, 1.f, window.GetWidth(), window.GetHeight());
     while (active && !window.ShouldClose())
     {
         glClear(GL_COLOR_BUFFER_BIT);
+
 
         //ImGui_ImplOpenGL3_NewFrame();
         //ImGui_ImplGlfw_NewFrame();
@@ -32,7 +32,8 @@ void App::Run()
         //ImGui::Render();
         //ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-        shape.Render();
+        wizard.CalculatePoints(shape, -1.f, 1.f, -1.f, 1.f, window.GetWidth(), window.GetHeight());
+        wizard.Render();
 
         window.Update();
     }
