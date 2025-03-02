@@ -26,7 +26,17 @@ void RayCaster::CalculatePoints(Ellipsoid shape, float xLeft, float xRight,
 			auto result = shape.CalculatePoint(x, y);
 			if (result.first)
 			{
-				points.push_back(RayCasterPoint{ .point{ x, y, 0.f, 1.f }, .color{ 0.5f, 0.5f, 0.5f, 1.0f } });
+				Vector4 camera(0.f, 0.f, 100.f, 0.f);
+
+				Vector4 v = (camera - Vector4(x, y, result.second, 0.f)).Normalize();
+				Vector4 gradient = shape.CalculateGradient(x, y, result.second).Normalize();
+
+				float intensity = std::pow(v * gradient, 9.0f); 
+			
+				points.push_back(RayCasterPoint{ 
+					.point{ x, y, 0.f, 1.f }, 
+					.color{ intensity, intensity, intensity, 1.0f } 
+				});
 			}
 		}
 	}

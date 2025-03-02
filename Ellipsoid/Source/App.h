@@ -13,7 +13,7 @@ private:
 	Window window;
 	bool active;
 	Ellipsoid shape;
-	RayCaster wizard;
+	RayCaster rayCaster;
 
 public:
 	App(int windowWidth = 640, int windowHeight = 480, std::string title = "Pierce the Heavens");

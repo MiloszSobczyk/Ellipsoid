@@ -22,6 +22,7 @@ public:
 	Matrix4 CalculateInverseTransformations();
 
 	std::pair<bool, float> CalculatePoint(float x, float y);
+	Vector4 CalculateGradient(float x, float y, float z);
 
 	void Refresh();
 };

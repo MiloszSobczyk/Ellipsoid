@@ -64,4 +64,24 @@ std::pair<bool, float> Ellipsoid::CalculatePoint(float x, float y)
 	return std::make_pair(true, std::max(z1, z2));
 }
 
+Vector4 Ellipsoid::CalculateGradient(float x, float y, float z)
+{
+	float a = 2 * finalMatrix[0][0];
+	float b = Vector4(0, y, z, 1) * finalMatrix * Vector4(1, 0, 0, 0) 
+		+ Vector4(1, 0, 0, 0) * finalMatrix * Vector4(0, y, z, 1);
+	float xGrad = a * x + b;
+
+	a = 2 * finalMatrix[1][1];
+	b = Vector4(x, 0, z, 1) * finalMatrix * Vector4(0, 1, 0, 0)
+		+ Vector4(0, 1, 0, 0) * finalMatrix * Vector4(x, 0, z, 1);
+	float yGrad = a * y + b;
+
+	a = 2 * finalMatrix[2][2];
+	b = Vector4(x, y, 0, 1) * finalMatrix * Vector4(0, 0, 1, 0)
+		+ Vector4(0, 0, 1, 0) * finalMatrix * Vector4(x, y, 0, 1);
+	float zGrad = a * z + b;
+
+	return Vector4(xGrad, yGrad, zGrad, 0.f);
+}
+
 

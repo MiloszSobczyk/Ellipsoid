@@ -25,16 +25,14 @@ void App::Run()
     {
         glClear(GL_COLOR_BUFFER_BIT);
 
+        rayCaster.CalculatePoints(shape, -1.f, 1.f, -1.f, 1.f, window.GetWidth(), window.GetHeight());
+        rayCaster.Render();
 
-        //ImGui_ImplOpenGL3_NewFrame();
-        //ImGui_ImplGlfw_NewFrame();
-        //ImGui::NewFrame();
-        //ImGui::Render();
-        //ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-        wizard.CalculatePoints(shape, -1.f, 1.f, -1.f, 1.f, window.GetWidth(), window.GetHeight());
-        wizard.Render();
-
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         window.Update();
     }
 }

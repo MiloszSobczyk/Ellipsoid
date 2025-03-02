@@ -1,6 +1,7 @@
 #include "Vector4.h"
 #include <stdexcept>
 #include "Matrix4.h"
+#include <iostream>
 
 using namespace Algebra;
 
@@ -24,6 +25,7 @@ float Vector4::Length() const
 
 Vector4 Vector4::Normalize() const
 {
+	//std::cout << Length() << '\n';
 	return *this / Length();
 }
 
