@@ -10,19 +10,20 @@ RayCaster::RayCaster() : shader("Resources/Shaders/Shader.glsl")
 	GLCall(glGenVertexArrays(1, &VAO));
 }
 
-void RayCaster::CalculatePoints(Ellipsoid shape, float xLeft, float xRight, 
-	float yDown, float yUp, int xSegments, int ySegments)
+void RayCaster::CalculatePoints(Ellipsoid shape, Window& window, int raySize)
 {
 	shape.Refresh();
 	points.clear();
 
-	for (int i = 0; i < xSegments; ++i)
-	{
-		for (int j = 0; j < ySegments; ++j)
-		{
-			float x = xLeft + (xRight - xLeft) / xSegments * i;
-			float y = yDown + (yUp - yDown) / ySegments * j;
+	float width = static_cast<float>(window.GetWidth() / 100.f);
+	float height = static_cast<float>(window.GetHeight() / 100.f);
+	float raySizeF = static_cast<float>(raySize) / 100.f;
+	float rayStep = raySizeF / static_cast<float>(raySize);
 
+	for (float x = -width / 2.f; x < width / 2.f; x += raySizeF)
+	{
+		for (float y = -height / 2.f; y < height / 2.f; y += raySizeF)
+		{
 			auto result = shape.CalculatePoint(x, y);
 			if (result.first)
 			{
@@ -31,12 +32,18 @@ void RayCaster::CalculatePoints(Ellipsoid shape, float xLeft, float xRight,
 				Vector4 v = (camera - Vector4(x, y, result.second, 0.f)).Normalize();
 				Vector4 gradient = shape.CalculateGradient(x, y, result.second).Normalize();
 
-				float intensity = std::pow(v * gradient, 9.0f); 
+				float intensity = std::powf(std::max(v * gradient, 0.f), 9.f); 
 			
-				points.push_back(RayCasterPoint{ 
-					.point{ x, y, 0.f, 1.f }, 
-					.color{ intensity, intensity, intensity, 1.0f } 
-				});
+				for (float i = 0; i < raySizeF; i += rayStep)
+				{
+					for (float j = 0; j < raySizeF; j += rayStep)
+					{
+						points.push_back(RayCasterPoint{ 
+							.point{ (x + i) / width * 2.f, (y + j) / height * 2.f, 0.f, 1.f }, 
+							.color{ intensity, intensity, intensity, 1.0f } 
+						});
+					}
+				}
 			}
 		}
 	}

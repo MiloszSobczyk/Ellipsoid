@@ -15,6 +15,8 @@ private:
 	Vector4 scaling;
 	Vector4 translations;
 	Matrix4 finalMatrix;
+
+	void InitTransformations();
 public:
 	Ellipsoid();
 	Ellipsoid(float a, float b, float c);

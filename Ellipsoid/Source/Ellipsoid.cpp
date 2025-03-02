@@ -6,16 +6,20 @@
 #include <iostream>
 
 
-Ellipsoid::Ellipsoid() 
+
+Ellipsoid::Ellipsoid()
 	: a(1.f), b(1.f), c(1.f)
 {
-	translations = Vector4(0.f, 0.f, 0.f, 0.f);
-	scaling = Vector4(1.f, 1.f, 1.f, 1.f);
-	rotations = Vector4(0.f, 0.f, 0.f, 0.f);
+	InitTransformations();
 }
 
 Ellipsoid::Ellipsoid(float a, float b, float c)
 	: a(a), b(b), c(c)
+{
+	InitTransformations();
+}
+
+void Ellipsoid::InitTransformations()
 {
 	translations = Vector4(0.f, 0.f, 0.f, 0.f);
 	scaling = Vector4(1.f, 1.f, 1.f, 1.f);

@@ -25,7 +25,7 @@ void App::Run()
     {
         glClear(GL_COLOR_BUFFER_BIT);
 
-        rayCaster.CalculatePoints(shape, -1.f, 1.f, -1.f, 1.f, window.GetWidth(), window.GetHeight());
+        rayCaster.CalculatePoints(shape, window, 1);
         rayCaster.Render();
 
         ImGui_ImplOpenGL3_NewFrame();

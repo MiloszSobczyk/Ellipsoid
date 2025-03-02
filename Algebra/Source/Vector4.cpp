@@ -25,7 +25,6 @@ float Vector4::Length() const
 
 Vector4 Vector4::Normalize() const
 {
-	//std::cout << Length() << '\n';
 	return *this / Length();
 }
 

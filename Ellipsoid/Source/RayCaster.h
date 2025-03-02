@@ -2,6 +2,7 @@
 #include <Vector4.h>
 #include <vector>
 #include <Ellipsoid.h>
+#include <Window.h>
 
 using namespace Algebra;
 
@@ -21,7 +22,7 @@ private:
 
 public:
 	RayCaster();
-	void CalculatePoints(Ellipsoid shape, float xLeft, float xRight, float yDown, float yUp, int xSegments, int ySegments);
+	void CalculatePoints(Ellipsoid shape, Window& window, int raySize);
 	void Render();
 	void Save();
 };
