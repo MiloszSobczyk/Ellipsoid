@@ -25,14 +25,19 @@ void App::Run()
     {
         glClear(GL_COLOR_BUFFER_BIT);
 
-        rayCaster.CalculatePoints(shape, window, 1);
+        rayCaster.CalculatePoints(shape, window, 16);
         rayCaster.Render();
 
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
+
         ImGui::NewFrame();
+        ImGui::Begin("Hello, ImGui!");
+        ImGui::Text("This is a test window.");
+        ImGui::End();
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
         window.Update();
     }
 }

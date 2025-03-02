@@ -68,9 +68,9 @@ void RayCaster::Render()
 {
 	shader.Bind();
 
-	glBindVertexArray(VAO);
-	glDrawArrays(GL_POINTS, 0, points.size());
-	glBindVertexArray(0);
+	GLCall(glBindVertexArray(VAO));
+	GLCall(glDrawArrays(GL_POINTS, 0, points.size()));
+	GLCall(glBindVertexArray(0));
 
 	shader.Unbind();
 }
