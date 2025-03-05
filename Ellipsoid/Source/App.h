@@ -6,6 +6,7 @@
 
 #include <string>
 #include <RayCaster.h>
+#include <UserInterface.h>
 
 class App
 {
@@ -14,9 +15,10 @@ private:
 	bool active;
 	Ellipsoid shape;
 	RayCaster rayCaster;
+	UserInterface UI;
 
 public:
-	App(int windowWidth = 640, int windowHeight = 480, std::string title = "Pierce the Heavens");
+	App(int windowWidth = 1280, int windowHeight = 720, std::string title = "Pierce the Heavens");
 	~App();
 
 	void Run();

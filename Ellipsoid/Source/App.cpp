@@ -2,7 +2,7 @@
 #include <stdexcept>
 
 App::App(int windowWidth, int windowHeight, std::string title)
-	: window(windowWidth, windowHeight, title), active(true), shape(1.f, 1.f, 1.f)
+	: window(windowWidth, windowHeight, title), active(true), shape(1.f, 1.f, 1.f), UI(&window)
 {
     active &= InitImgui(window.GetNativeWindow());
     if (!active)
@@ -28,15 +28,7 @@ void App::Run()
         rayCaster.CalculatePoints(shape, window, 16);
         rayCaster.Render();
 
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-
-        ImGui::NewFrame();
-        ImGui::Begin("Hello, ImGui!");
-        ImGui::Text("This is a test window.");
-        ImGui::End();
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        UI.Render();
 
         window.Update();
     }
