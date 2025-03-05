@@ -32,7 +32,7 @@ void RayCaster::CalculatePoints(Ellipsoid shape, Window& window, int raySize)
 				Vector4 v = (camera - Vector4(x, y, result.second, 0.f)).Normalize();
 				Vector4 gradient = shape.CalculateGradient(x, y, result.second).Normalize();
 
-				float intensity = std::powf(std::max(v * gradient, 0.f), 31.f); 
+				float intensity = std::powf(std::max(v * gradient, 0.f), 11.f); 
 			
 				for (float i = 0; i < raySizeF; i += rayStep)
 				{

@@ -50,19 +50,19 @@ void UserInterface::RenderComponents()
         ImGui::Text("a");
         ImGui::TableNextColumn();
         ImGui::SetNextItemWidth(-FLT_MIN);
-        ImGui::SliderFloat("##a", &(values.a), 1.0f, 5.0f, "%.2f");
+        ImGui::SliderFloat("##a", &(values.a), 0.5f, 5.0f, "%.2f");
 
         ImGui::TableNextColumn();
         ImGui::Text("b");
         ImGui::TableNextColumn();
         ImGui::SetNextItemWidth(-FLT_MIN);
-        ImGui::SliderFloat("##b", &(values.b), 1.0f, 5.0f, "%.2f");
+        ImGui::SliderFloat("##b", &(values.b), 0.5f, 5.0f, "%.2f");
 
         ImGui::TableNextColumn();
         ImGui::Text("c");
         ImGui::TableNextColumn();
         ImGui::SetNextItemWidth(-FLT_MIN);
-        ImGui::SliderFloat("##c", &(values.c), 1.0f, 5.0f, "%.2f");
+        ImGui::SliderFloat("##c", &(values.c), 0.5f, 5.0f, "%.2f");
 
         ImGui::EndTable();
     }
@@ -92,5 +92,17 @@ void UserInterface::RenderComponents()
         ImGui::EndTable();
     }
 
+    ImGui::Text("Scale");
+
+    if (ImGui::BeginTable("table3", 2, ImGuiTableFlags_SizingStretchProp))
+    {
+        ImGui::TableNextColumn();
+        ImGui::Text("s");
+        ImGui::TableNextColumn();
+        ImGui::SetNextItemWidth(-FLT_MIN);
+        ImGui::SliderFloat("##scale", &(values.scale), 0.5f, 4.f, "%.2f");
+
+        ImGui::EndTable();
+    }
 }
 

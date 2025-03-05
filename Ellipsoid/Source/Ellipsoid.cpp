@@ -28,7 +28,9 @@ void Ellipsoid::InitTransformations()
 
 void Ellipsoid::Refresh()
 {
-	Matrix4 diag(Vector4(a, b, c, -1.f));
+	UIValues values = UserInterface::values;
+
+	Matrix4 diag(Vector4(values.a, values.b, values.c, -1.f));
 	Matrix4 inv = CalculateInverseTransformations();
 	finalMatrix = inv.Transpose() * diag * inv;
 }
@@ -42,11 +44,13 @@ Matrix4 Ellipsoid::CalculateInverseTransformations()
 		-values.translationY, 
 		-values.translationZ
 	);
+
 	Matrix4 inverseRotation =
 		Matrix4::RotationZByDegree(rotations[2]).Transpose() *
 		Matrix4::RotationYByDegree(rotations[1]).Transpose() *
 		Matrix4::RotationXByDegree(rotations[0]).Transpose();
-	Matrix4 inverseScaling = Matrix4(Vector4(1 / scaling[0], 1 / scaling[1], 1 / scaling[2], 1));
+
+	Matrix4 inverseScaling = Matrix4(Vector4(1, 1, 1, 1) / values.scale);
 
 	Matrix4 inverseTransform = inverseScaling * inverseRotation * inverseTranslation;
 	return inverseTransform;
