@@ -22,6 +22,7 @@ public:
 	Ellipsoid(float a, float b, float c);
 
 	Matrix4 CalculateInverseTransformations();
+	Matrix4 CalculateTransformations();
 
 	std::pair<bool, float> CalculatePoint(float x, float y);
 	Vector4 CalculateGradient(float x, float y, float z);

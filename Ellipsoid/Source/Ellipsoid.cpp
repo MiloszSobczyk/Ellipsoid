@@ -56,6 +56,27 @@ Matrix4 Ellipsoid::CalculateInverseTransformations()
 	return inverseTransform;
 }
 
+Matrix4 Ellipsoid::CalculateTransformations()
+{
+	UIValues values = UserInterface::values;
+	Matrix4 translation = Matrix4::Translation(
+		values.translationX,
+		values.translationY,
+		values.translationZ
+	);
+
+	Matrix4 rotation =
+		Matrix4::RotationXByDegree(rotations[0]).Transpose() *
+		Matrix4::RotationYByDegree(rotations[1]).Transpose() *
+		Matrix4::RotationZByDegree(rotations[2]).Transpose();
+
+	Matrix4 scaling = Matrix4(Vector4(values.scale, values.scale, values.scale, 1));
+
+	Matrix4 transform = scaling * rotation * translation;
+
+	return transform;
+}
+
 std::pair<bool, float> Ellipsoid::CalculatePoint(float x, float y)
 {
 	float aZ = finalMatrix[2][2];
