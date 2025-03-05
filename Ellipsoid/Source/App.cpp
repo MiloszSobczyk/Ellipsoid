@@ -25,7 +25,7 @@ void App::Run()
     {
         glClear(GL_COLOR_BUFFER_BIT);
 
-        rayCaster.CalculatePoints(shape, window, 16);
+        rayCaster.CalculatePoints(shape, window, 4);
         rayCaster.Render();
 
         UI.Render();

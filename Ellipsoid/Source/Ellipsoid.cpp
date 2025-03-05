@@ -4,7 +4,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-
+#include "UserInterface.h"
 
 
 Ellipsoid::Ellipsoid()
@@ -35,7 +35,13 @@ void Ellipsoid::Refresh()
 
 Matrix4 Ellipsoid::CalculateInverseTransformations()
 {
-	Matrix4 inverseTranslation = Matrix4::Translation(-translations[0], -translations[1], -translations[2]);
+	UIValues values = UserInterface::values;
+
+	Matrix4 inverseTranslation = Matrix4::Translation(
+		-values.translationX, 
+		-values.translationY, 
+		-values.translationZ
+	);
 	Matrix4 inverseRotation =
 		Matrix4::RotationZByDegree(rotations[2]).Transpose() *
 		Matrix4::RotationYByDegree(rotations[1]).Transpose() *
