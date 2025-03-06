@@ -46,11 +46,11 @@ Matrix4 Ellipsoid::CalculateInverseTransformations()
 	);
 
 	Matrix4 inverseRotation =
-		Matrix4::RotationZByDegree(rotations[2]).Transpose() *
-		Matrix4::RotationYByDegree(rotations[1]).Transpose() *
-		Matrix4::RotationXByDegree(rotations[0]).Transpose();
+		Matrix4::RotationX(values.rotationX).Transpose() *
+		Matrix4::RotationY(values.rotationY).Transpose() *
+		Matrix4::RotationZ(values.rotationZ).Transpose();
 
-	Matrix4 inverseScaling = Matrix4(Vector4(1, 1, 1, 1) / values.scale);
+	Matrix4 inverseScaling = Matrix4(Vector4(1 / values.scale, 1 / values.scale, 1 / values.scale, 1));
 
 	Matrix4 inverseTransform = inverseScaling * inverseRotation * inverseTranslation;
 	return inverseTransform;

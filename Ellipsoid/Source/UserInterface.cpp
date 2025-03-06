@@ -8,6 +8,9 @@ UIValues UserInterface::values{
     .translationX = 0.f,
     .translationY = 0.f,
     .translationZ = 0.f,
+    .rotationX = 0.0f,
+    .rotationY = 0.0f,
+    .rotationZ = 0.0f
 };
 
 
@@ -101,6 +104,31 @@ void UserInterface::RenderComponents()
         ImGui::TableNextColumn();
         ImGui::SetNextItemWidth(-FLT_MIN);
         ImGui::SliderFloat("##scale", &(values.scale), 0.5f, 4.f, "%.2f");
+
+        ImGui::EndTable();
+    }
+
+    ImGui::Text("Rotations");
+
+    if (ImGui::BeginTable("table4", 2, ImGuiTableFlags_SizingStretchProp))
+    {
+        ImGui::TableNextColumn();
+        ImGui::Text("X");
+        ImGui::TableNextColumn();
+        ImGui::SetNextItemWidth(-FLT_MIN);
+        ImGui::SliderFloat("##rx", &(values.rotationX), 0.f, 7.f, "%.2f");
+
+        ImGui::TableNextColumn();
+        ImGui::Text("Y");
+        ImGui::TableNextColumn();
+        ImGui::SetNextItemWidth(-FLT_MIN);
+        ImGui::SliderFloat("##ry", &(values.rotationY), 0.f, 7.f, "%.2f");
+
+        ImGui::TableNextColumn();
+        ImGui::Text("Z");
+        ImGui::TableNextColumn();
+        ImGui::SetNextItemWidth(-FLT_MIN);
+        ImGui::SliderFloat("##rz", &(values.rotationZ), 0.f, 7.f, "%.2f");
 
         ImGui::EndTable();
     }

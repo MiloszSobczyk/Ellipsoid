@@ -13,7 +13,10 @@ struct UIValues
 	float scale;
 	float translationX;
 	float translationY;
-	float translationZ;
+	float translationZ;	
+	float rotationX;
+	float rotationY;
+	float rotationZ;
 };
 
 
