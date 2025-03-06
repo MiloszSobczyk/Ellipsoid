@@ -72,6 +72,11 @@ const Vector4 Vector4::operator-(const Vector4& other) const
 	);
 }
 
+const Vector4 Algebra::Vector4::operator-() const
+{
+	return Vector4(-x, -y, -z, -w);
+}
+
 const float Vector4::operator*(const Vector4& other) const
 {
 	return x * other.x + y * other.y + z * other.z + w * other.w;

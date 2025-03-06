@@ -14,6 +14,19 @@ UIValues UserInterface::values{
 };
 
 
+void UserInterface::HandleMouseDrag()
+{
+    if (ImGui::IsMouseDragging(ImGuiMouseButton_Right))
+    {
+        ImVec2 mouseDelta = ImGui::GetMouseDragDelta(ImGuiMouseButton_Right);
+
+        values.translationX += mouseDelta.x * 0.01f;
+        values.translationY -= mouseDelta.y * 0.01f;
+
+        ImGui::ResetMouseDragDelta(ImGuiMouseButton_Right);
+    }
+}
+
 UserInterface::UserInterface(Window* window)
 	: window(window), flags(0), width(200.f)
 {
@@ -29,6 +42,8 @@ void UserInterface::Render()
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
+
+    HandleMouseDrag();
 
     ImGui::SetNextWindowPos(ImVec2(window->GetWidth() - width, 0));
     ImGui::SetNextWindowSize(ImVec2(width, window->GetHeight()));

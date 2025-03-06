@@ -21,6 +21,7 @@ namespace Algebra
 		const float& operator[](int index) const;
 		const Vector4 operator+(const Vector4& other) const;
 		const Vector4 operator-(const Vector4& other) const;
+		const Vector4 operator-() const;
 
 		const float operator*(const Vector4& other) const;
 		const Vector4 operator*(const Matrix4& matrix) const;

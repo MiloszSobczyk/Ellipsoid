@@ -27,6 +27,8 @@ private:
 	ImGuiWindowFlags flags;
 	float width;
 
+	void HandleMouseDrag();
+
 public:
 	static UIValues values;
 
