@@ -34,9 +34,9 @@ void RayCaster::CalculatePoints(Ellipsoid& shape, Window& window, int raySize)
 
 				float intensity = std::powf(std::max(v * gradient, 0.f), 5.f); 
 			
-				for (float i = 0; i < raySizeF; i += rayStep)
+				for (float i = -raySizeF / 2.f; i < raySizeF / 2.f; i += rayStep)
 				{
-					for (float j = 0; j < raySizeF; j += rayStep)
+					for (float j = -raySizeF / 2.f; j < raySizeF / 2.f; j += rayStep)
 					{
 						points.push_back(RayCasterPoint{ 
 							.point{ (x + i) / width * 2.f, (y + j) / height * 2.f, 0.f, 1.f }, 
