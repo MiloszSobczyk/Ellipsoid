@@ -10,7 +10,7 @@ RayCaster::RayCaster() : shader("Resources/Shaders/Shader.glsl")
 	GLCall(glGenVertexArrays(1, &VAO));
 }
 
-void RayCaster::CalculatePoints(Ellipsoid shape, Window& window, int raySize)
+void RayCaster::CalculatePoints(Ellipsoid& shape, Window& window, int raySize)
 {
 	shape.Refresh();
 	points.clear();
@@ -27,7 +27,7 @@ void RayCaster::CalculatePoints(Ellipsoid shape, Window& window, int raySize)
 			auto result = shape.CalculatePoint(x, y);
 			if (result.first)
 			{
-				Vector4 camera(0.f, 0.f, 5.f, 0.f);
+				Vector4 camera(0.f, 0.f, 10.f, 0.f);
 
 				Vector4 v = (camera - Vector4(x, y, result.second, 0.f)).Normalize();
 				Vector4 gradient = shape.CalculateGradient(x, y, result.second).Normalize();

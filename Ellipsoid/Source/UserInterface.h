@@ -17,6 +17,7 @@ struct UIValues
 	float rotationX;
 	float rotationY;
 	float rotationZ;
+	float rotationYChange;
 };
 
 

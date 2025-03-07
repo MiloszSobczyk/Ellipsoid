@@ -1,4 +1,5 @@
 #include "UserInterface.h"
+#include <iostream>
 
 UIValues UserInterface::values{
     .a = 1.f,
@@ -10,18 +11,27 @@ UIValues UserInterface::values{
     .translationZ = 0.f,
     .rotationX = 0.0f,
     .rotationY = 0.0f,
-    .rotationZ = 0.0f
+    .rotationZ = 0.0f,
+    .rotationYChange = 0.0f,
 };
 
 
 void UserInterface::HandleMouseDrag()
 {
+    if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+    {
+        values.rotationYChange = 30.f;
+    }
+
     if (ImGui::IsMouseDragging(ImGuiMouseButton_Right))
     {
         ImVec2 mouseDelta = ImGui::GetMouseDragDelta(ImGuiMouseButton_Right);
 
         values.translationX += mouseDelta.x * 0.01f;
         values.translationY -= mouseDelta.y * 0.01f;
+
+        values.translationX = std::max(std::min(values.translationX, 10.f), -10.f);
+        values.translationY = std::max(std::min(values.translationY, 10.f), -10.f);
 
         ImGui::ResetMouseDragDelta(ImGuiMouseButton_Right);
     }

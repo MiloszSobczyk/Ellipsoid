@@ -22,7 +22,7 @@ private:
 
 public:
 	RayCaster();
-	void CalculatePoints(Ellipsoid shape, Window& window, int raySize);
+	void CalculatePoints(Ellipsoid& shape, Window& window, int raySize);
 	void Render();
 	void Save();
 };

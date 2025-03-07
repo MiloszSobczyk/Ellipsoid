@@ -14,15 +14,15 @@ private:
 	Vector4 rotations;
 	Vector4 scaling;
 	Vector4 translations;
+	Matrix4 inverseRotations;
 	Matrix4 finalMatrix;
 
 	void InitTransformations();
 public:
-	Ellipsoid();
 	Ellipsoid(float a, float b, float c);
 
 	Matrix4 CalculateInverseTransformations();
-	Matrix4 CalculateTransformations();
+	void AddRotation(float angle);
 
 	std::pair<bool, float> CalculatePoint(float x, float y);
 	Vector4 CalculateGradient(float x, float y, float z);

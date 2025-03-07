@@ -6,15 +6,8 @@
 #include <iostream>
 #include "UserInterface.h"
 
-
-Ellipsoid::Ellipsoid()
-	: a(1.f), b(1.f), c(1.f)
-{
-	InitTransformations();
-}
-
 Ellipsoid::Ellipsoid(float a, float b, float c)
-	: a(a), b(b), c(c)
+	: a(a), b(b), c(c), inverseRotations(Vector4(1.f, 1.f, 1.f, 1.f))
 {
 	InitTransformations();
 }
@@ -45,36 +38,34 @@ Matrix4 Ellipsoid::CalculateInverseTransformations()
 		-values.translationZ
 	);
 
-	Matrix4 inverseRotation =
-		Matrix4::RotationX(values.rotationX).Transpose() *
-		Matrix4::RotationY(values.rotationY).Transpose() *
-		Matrix4::RotationZ(values.rotationZ).Transpose();
+	AddRotation(values.rotationYChange);
+	UserInterface::values.rotationYChange = 0.f;
 
 	Matrix4 inverseScaling = Matrix4(Vector4(1 / values.scale, 1 / values.scale, 1 / values.scale, 1));
-
-	Matrix4 inverseTransform = inverseScaling * inverseRotation * inverseTranslation;
+	
+	Matrix4 inverseTransform = inverseScaling * inverseRotations * inverseTranslation;
 	return inverseTransform;
 }
 
-Matrix4 Ellipsoid::CalculateTransformations()
+
+void Ellipsoid::AddRotation(float angle)
 {
-	UIValues values = UserInterface::values;
-	Matrix4 translation = Matrix4::Translation(
-		values.translationX,
-		values.translationY,
-		values.translationZ
-	);
+	if (angle == 0.f)
+		return;
 
-	Matrix4 rotation =
-		Matrix4::RotationXByDegree(rotations[0]).Transpose() *
-		Matrix4::RotationYByDegree(rotations[1]).Transpose() *
-		Matrix4::RotationZByDegree(rotations[2]).Transpose();
+	std::cout << angle << '\n';
+	inverseRotations = inverseRotations * Matrix4::RotationByDegree(-angle, 0.f, 0.f);
 
-	Matrix4 scaling = Matrix4(Vector4(values.scale, values.scale, values.scale, 1));
+	for (int i = 0; i < 4; ++i)
+	{
+		for (int j = 0; j < 4; ++j)
+		{
+			std::cout << inverseRotations[i][j] << ' ';
+		}
+		std::cout << '\n';
+	}
 
-	Matrix4 transform = scaling * rotation * translation;
-
-	return transform;
+	std::cout << '\n';
 }
 
 std::pair<bool, float> Ellipsoid::CalculatePoint(float x, float y)
