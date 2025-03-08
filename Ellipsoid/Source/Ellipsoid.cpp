@@ -38,34 +38,12 @@ Matrix4 Ellipsoid::CalculateInverseTransformations()
 		-values.translationZ
 	);
 
-	AddRotation(values.rotationYChange);
-	UserInterface::values.rotationYChange = 0.f;
-
 	Matrix4 inverseScaling = Matrix4(Vector4(1 / values.scale, 1 / values.scale, 1 / values.scale, 1));
+
+	inverseRotations = values.rotation;
 	
 	Matrix4 inverseTransform = inverseScaling * inverseRotations * inverseTranslation;
 	return inverseTransform;
-}
-
-
-void Ellipsoid::AddRotation(float angle)
-{
-	if (angle == 0.f)
-		return;
-
-	std::cout << angle << '\n';
-	inverseRotations = inverseRotations * Matrix4::RotationByDegree(-angle, 0.f, 0.f);
-
-	for (int i = 0; i < 4; ++i)
-	{
-		for (int j = 0; j < 4; ++j)
-		{
-			std::cout << inverseRotations[i][j] << ' ';
-		}
-		std::cout << '\n';
-	}
-
-	std::cout << '\n';
 }
 
 std::pair<bool, float> Ellipsoid::CalculatePoint(float x, float y)

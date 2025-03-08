@@ -2,6 +2,7 @@
 
 #include <stdexcept>
 #include <numbers>
+#include <iostream>
 
 using namespace Algebra;
 

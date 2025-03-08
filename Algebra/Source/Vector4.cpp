@@ -28,6 +28,11 @@ Vector4 Vector4::Normalize() const
 	return *this / Length();
 }
 
+Vector4 Algebra::Vector4::Cross(const Vector4& other) const
+{
+	return Vector4(y * other.z - z * other.y, x * other.z - z * other.x, x * other.y - y * other.x, 0.f);
+}
+
 float& Vector4::operator[](int index)
 {
 	switch (index)

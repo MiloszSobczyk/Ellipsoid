@@ -4,6 +4,10 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
+#include <Vector4.h>
+#include "Matrix4.h"
+
+using namespace Algebra;
 
 struct UIValues
 {
@@ -14,10 +18,7 @@ struct UIValues
 	float translationX;
 	float translationY;
 	float translationZ;	
-	float rotationX;
-	float rotationY;
-	float rotationZ;
-	float rotationYChange;
+	Matrix4 rotation;
 };
 
 
@@ -27,6 +28,7 @@ private:
 	Window* window;
 	ImGuiWindowFlags flags;
 	float width;
+	Vector4 startPos;
 
 	void HandleMouseDrag();
 
@@ -37,4 +39,5 @@ public:
 	
 	void Render();
 	void RenderComponents();
+	Vector4 Project(float x, float y);
 };

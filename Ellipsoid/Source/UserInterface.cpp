@@ -1,5 +1,8 @@
 #include "UserInterface.h"
 #include <iostream>
+#include "Matrix4.h"
+
+using namespace Algebra;
 
 UIValues UserInterface::values{
     .a = 1.f,
@@ -9,18 +12,41 @@ UIValues UserInterface::values{
     .translationX = 0.f,
     .translationY = 0.f,
     .translationZ = 0.f,
-    .rotationX = 0.0f,
-    .rotationY = 0.0f,
-    .rotationZ = 0.0f,
-    .rotationYChange = 0.0f,
+    .rotation = Matrix4::Identity(),
 };
-
 
 void UserInterface::HandleMouseDrag()
 {
+    if (ImGui::IsAnyItemActive() || ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow))
+    {
+        return;
+    }
+
     if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
     {
-        values.rotationYChange = 30.f;
+        auto mousePos = ImGui::GetMousePos();
+        startPos = Project(mousePos.x, mousePos.y).Normalize();
+        return;
+    }
+
+    if (ImGui::IsMouseDragging(ImGuiMouseButton_Left))
+    {
+        auto mousePos = ImGui::GetMousePos();
+        std::cout << mousePos.x << ' ' << mousePos.y << '\n';
+        Vector4 q = Project(mousePos.x, mousePos.y).Normalize();
+        float theta = acosf(startPos * q) * 2.5f;
+        auto w = q.Cross(startPos).Normalize();
+        auto temp = Matrix4();
+        temp[1][0] = w.z;
+        temp[0][1] = -w.z;
+        temp[0][2] = -w.y;
+        temp[2][0] = w.y;
+        temp[2][1] = w.x;
+        temp[1][2] = -w.x;
+
+        auto quat = Matrix4::Identity() + sinf(theta) * temp + ((1.f - cosf(theta)) * temp * temp);
+        
+        values.rotation = quat;
     }
 
     if (ImGui::IsMouseDragging(ImGuiMouseButton_Right))
@@ -132,30 +158,22 @@ void UserInterface::RenderComponents()
 
         ImGui::EndTable();
     }
+}
 
-    ImGui::Text("Rotations");
+Vector4 UserInterface::Project(float x, float y)
+{
+    float res = fminf(window->GetWidth(), window->GetHeight()) - 1.f;
 
-    if (ImGui::BeginTable("table4", 2, ImGuiTableFlags_SizingStretchProp))
-    {
-        ImGui::TableNextColumn();
-        ImGui::Text("X");
-        ImGui::TableNextColumn();
-        ImGui::SetNextItemWidth(-FLT_MIN);
-        ImGui::SliderFloat("##rx", &(values.rotationX), 0.f, 7.f, "%.2f");
+    x = 2.f * x / window->GetWidth() - 1.f;
+    y = 1.f - 2.f * y / window->GetHeight();
 
-        ImGui::TableNextColumn();
-        ImGui::Text("Y");
-        ImGui::TableNextColumn();
-        ImGui::SetNextItemWidth(-FLT_MIN);
-        ImGui::SliderFloat("##ry", &(values.rotationY), 0.f, 7.f, "%.2f");
+    float d = x * x + y * y;
+    float z = 0.f;
+    if (d <= 0.5f)
+        z = std::sqrtf(1.f - d);
+    else
+        z = 0.5f / std::sqrtf(d);
 
-        ImGui::TableNextColumn();
-        ImGui::Text("Z");
-        ImGui::TableNextColumn();
-        ImGui::SetNextItemWidth(-FLT_MIN);
-        ImGui::SliderFloat("##rz", &(values.rotationZ), 0.f, 7.f, "%.2f");
-
-        ImGui::EndTable();
-    }
+    return Vector4(x, y, z, 0.f);
 }
 
