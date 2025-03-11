@@ -14,6 +14,7 @@ UIValues UserInterface::values{
     .translationZ = 0.f,
     .rotation = Matrix4::Identity(),
     .moving = false,
+    .raySize = 1,
 };
 
 void UserInterface::HandleMouseDrag()
@@ -165,6 +166,39 @@ void UserInterface::RenderComponents()
 
         ImGui::EndTable();
     }
+
+    ImGui::Text("Ray size");
+
+    if (ImGui::BeginTable("table3", 2, ImGuiTableFlags_SizingStretchProp))
+    {
+        ImGui::TableNextColumn();
+        ImGui::Text("s");
+        ImGui::TableNextColumn();
+
+        ImGui::SetNextItemWidth(-FLT_MIN);
+        static int scaleIndex = 0;
+        static const float scaleValues[] = { 1.f, 2.f, 4.f, 8.f, 16.f, 32.f, 64.f };
+        const int maxIndex = (sizeof(scaleValues) / sizeof(scaleValues[0])) - 1;
+
+        if (ImGui::Button("-")) 
+        {
+            if (scaleIndex > 0) 
+                scaleIndex--;
+        }
+        ImGui::SameLine();
+        ImGui::Text("%.0f", scaleValues[scaleIndex]);
+        ImGui::SameLine();
+        if (ImGui::Button("+")) 
+        {
+            if (scaleIndex < maxIndex) 
+                scaleIndex++;
+        }
+
+        values.raySize = scaleValues[scaleIndex];
+
+        ImGui::EndTable();
+    }
+
 }
 
 Vector4 UserInterface::Project(float x, float y)

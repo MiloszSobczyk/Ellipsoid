@@ -16,10 +16,13 @@ private:
 	Ellipsoid shape;
 	RayCaster rayCaster;
 	UserInterface UI;
+	int raySize;
+	int frameCount;
 
 public:
 	App(int windowWidth = 1280, int windowHeight = 720, std::string title = "Pierce the Heavens");
 	~App();
 
 	void Run();
+	void ResolveRaySize();
 };

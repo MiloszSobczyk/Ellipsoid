@@ -20,6 +20,7 @@ struct UIValues
 	float translationZ;	
 	Matrix4 rotation;
 	bool moving;
+	int raySize;
 };
 
 
