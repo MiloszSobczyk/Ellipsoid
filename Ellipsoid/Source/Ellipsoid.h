@@ -11,17 +11,16 @@ class Ellipsoid
 {
 private:
 	float a, b, c;
-	Vector4 rotations;
-	Vector4 scaling;
-	Vector4 translations;
-	Matrix4 inverseRotations;
-	Matrix4 finalMatrix;
 
-	void InitTransformations();
+	Matrix4 tempInverseRotations;
+	Matrix4 inverseRotations;
+	Matrix4 tempFinalMatrix;
+	Matrix4 finalMatrix;
 public:
 	Ellipsoid(float a, float b, float c);
 
 	Matrix4 CalculateInverseTransformations();
+	void SetupRotations();
 
 	std::pair<bool, float> CalculatePoint(float x, float y);
 	Vector4 CalculateGradient(float x, float y, float z);

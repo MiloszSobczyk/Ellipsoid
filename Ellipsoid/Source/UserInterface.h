@@ -19,6 +19,7 @@ struct UIValues
 	float translationY;
 	float translationZ;	
 	Matrix4 rotation;
+	bool moving;
 };
 
 

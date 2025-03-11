@@ -7,16 +7,9 @@
 #include "UserInterface.h"
 
 Ellipsoid::Ellipsoid(float a, float b, float c)
-	: a(a), b(b), c(c), inverseRotations(Vector4(1.f, 1.f, 1.f, 1.f))
+	: a(a), b(b), c(c), inverseRotations(Vector4(1.f, 1.f, 1.f, 1.f)), 
+		tempInverseRotations(Vector4(1.f, 1.f, 1.f, 1.f))
 {
-	InitTransformations();
-}
-
-void Ellipsoid::InitTransformations()
-{
-	translations = Vector4(0.f, 0.f, 0.f, 0.f);
-	scaling = Vector4(1.f, 1.f, 1.f, 1.f);
-	rotations = Vector4(0.f, 0.f, 0.f, 0.f);
 }
 
 void Ellipsoid::Refresh()
@@ -40,10 +33,29 @@ Matrix4 Ellipsoid::CalculateInverseTransformations()
 
 	Matrix4 inverseScaling = Matrix4(Vector4(1 / values.scale, 1 / values.scale, 1 / values.scale, 1));
 
-	inverseRotations = values.rotation;
-	
-	Matrix4 inverseTransform = inverseScaling * inverseRotations * inverseTranslation;
-	return inverseTransform;
+	SetupRotations();
+
+	if (values.moving)
+	{
+		return inverseScaling * tempInverseRotations * inverseTranslation;
+	}
+	else
+	{
+		return inverseScaling * inverseRotations * inverseTranslation;
+	}
+}
+
+void Ellipsoid::SetupRotations()
+{
+	UIValues values = UserInterface::values;
+
+	if (values.moving)
+		tempInverseRotations = inverseRotations * values.rotation;
+	else
+	{
+		inverseRotations = inverseRotations * values.rotation;
+		UserInterface::values.rotation = Matrix4::Identity();
+	}
 }
 
 std::pair<bool, float> Ellipsoid::CalculatePoint(float x, float y)

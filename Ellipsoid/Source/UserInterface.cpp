@@ -13,10 +13,13 @@ UIValues UserInterface::values{
     .translationY = 0.f,
     .translationZ = 0.f,
     .rotation = Matrix4::Identity(),
+    .moving = false,
 };
 
 void UserInterface::HandleMouseDrag()
 {
+    values.moving = false;
+
     if (ImGui::IsAnyItemActive() || ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow))
     {
         return;
@@ -26,6 +29,7 @@ void UserInterface::HandleMouseDrag()
     {
         auto mousePos = ImGui::GetMousePos();
         startPos = Project(mousePos.x, mousePos.y).Normalize();
+        values.moving = true;
         return;
     }
 
@@ -45,7 +49,8 @@ void UserInterface::HandleMouseDrag()
         temp[1][2] = -w.x;
 
         auto quat = Matrix4::Identity() + sinf(theta) * temp + ((1.f - cosf(theta)) * temp * temp);
-        
+
+        values.moving = true;
         values.rotation = quat;
     }
 
@@ -60,6 +65,8 @@ void UserInterface::HandleMouseDrag()
         values.translationY = std::max(std::min(values.translationY, 10.f), -10.f);
 
         ImGui::ResetMouseDragDelta(ImGuiMouseButton_Right);
+
+        values.moving = true;
     }
 }
 
