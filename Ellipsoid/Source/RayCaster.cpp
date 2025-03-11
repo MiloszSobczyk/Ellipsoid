@@ -3,6 +3,7 @@
 #include <GLFW/glfw3.h>
 #include "Utils/Logger.h"
 #include <iostream>
+#include <UserInterface.h>
 
 RayCaster::RayCaster() : shader("Resources/Shaders/Shader.glsl")
 {
@@ -32,7 +33,7 @@ void RayCaster::CalculatePoints(Ellipsoid& shape, Window& window, int raySize)
 				Vector4 v = (camera - Vector4(x, y, result.second, 0.f)).Normalize();
 				Vector4 gradient = shape.CalculateGradient(x, y, result.second).Normalize();
 
-				float intensity = std::powf(std::max(v * gradient, 0.f), 5.f); 
+				float intensity = std::powf(std::max(v * gradient, 0.f), static_cast<float>(UserInterface::values.lightIntensity)); 
 			
 				for (float i = -raySizeF / 2.f; i < raySizeF / 2.f; i += rayStep)
 				{

@@ -15,6 +15,7 @@ UIValues UserInterface::values{
     .rotation = Matrix4::Identity(),
     .moving = false,
     .raySize = 1,
+    .lightIntensity = 5,
 };
 
 void UserInterface::HandleMouseDrag()
@@ -176,7 +177,7 @@ void UserInterface::RenderComponents()
         ImGui::TableNextColumn();
 
         ImGui::SetNextItemWidth(-FLT_MIN);
-        static int scaleIndex = 0;
+        static int scaleIndex = 3;
         static const float scaleValues[] = { 1.f, 2.f, 4.f, 8.f, 16.f, 32.f, 64.f };
         const int maxIndex = (sizeof(scaleValues) / sizeof(scaleValues[0])) - 1;
 
@@ -199,6 +200,36 @@ void UserInterface::RenderComponents()
         ImGui::EndTable();
     }
 
+    ImGui::Text("Light Intensity");
+
+    if (ImGui::BeginTable("table3", 2, ImGuiTableFlags_SizingStretchProp))
+    {
+        ImGui::TableNextColumn();
+        ImGui::Text("m");
+        ImGui::TableNextColumn();
+
+        ImGui::SetNextItemWidth(-FLT_MIN);
+        static int lightIntensity = 5;
+
+        if (ImGui::Button("-")) 
+        {
+            if (lightIntensity > 1) 
+                lightIntensity--;
+        }
+
+        ImGui::SameLine();
+        ImGui::Text("%d", lightIntensity);
+        ImGui::SameLine();
+
+        if (ImGui::Button("+")) 
+        {
+            lightIntensity++;
+        }
+
+        values.lightIntensity = lightIntensity;
+
+        ImGui::EndTable();
+    }
 }
 
 Vector4 UserInterface::Project(float x, float y)

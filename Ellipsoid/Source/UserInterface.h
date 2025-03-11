@@ -21,6 +21,7 @@ struct UIValues
 	Matrix4 rotation;
 	bool moving;
 	int raySize;
+	int lightIntensity;
 };
 
 
