@@ -16,7 +16,7 @@ void Ellipsoid::Refresh()
 {
 	UIValues values = UserInterface::values;
 
-	Matrix4 diag(Vector4(values.a, values.b, values.c, -1.f));
+	Matrix4 diag(Vector4(1 / values.a / values.a, 1 / values.b / values.b, 1 / values.c / values.c, -1.f));
 	Matrix4 inv = CalculateInverseTransformations();
 	finalMatrix = inv.Transpose() * diag * inv;
 }

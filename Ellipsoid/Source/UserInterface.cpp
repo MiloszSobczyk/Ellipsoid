@@ -113,19 +113,19 @@ void UserInterface::RenderComponents()
         ImGui::Text("a");
         ImGui::TableNextColumn();
         ImGui::SetNextItemWidth(-FLT_MIN);
-        ImGui::SliderFloat("##a", &(values.a), 0.5f, 5.0f, "%.2f");
+        ImGui::SliderFloat("##a", &(values.a), 0.3f, 3.0f, "%.2f");
 
         ImGui::TableNextColumn();
         ImGui::Text("b");
         ImGui::TableNextColumn();
         ImGui::SetNextItemWidth(-FLT_MIN);
-        ImGui::SliderFloat("##b", &(values.b), 0.5f, 5.0f, "%.2f");
+        ImGui::SliderFloat("##b", &(values.b), 0.3f, 3.0f, "%.2f");
 
         ImGui::TableNextColumn();
         ImGui::Text("c");
         ImGui::TableNextColumn();
         ImGui::SetNextItemWidth(-FLT_MIN);
-        ImGui::SliderFloat("##c", &(values.c), 0.5f, 5.0f, "%.2f");
+        ImGui::SliderFloat("##c", &(values.c), 0.3f, 3.0f, "%.2f");
 
         ImGui::EndTable();
     }
